@@ -11,12 +11,16 @@ services:
       - ./master:/etc/salt/master
       - ./pillar/:/etc/salt/pillar/
       - ./states/:/etc/salt/states/
+      - ${HOME}/salt/:/usr/lib/python2.7/dist-packages/salt/
+      - ${HOME}/salt/:/usr/lib/python3.5/dist-packages/salt/
   salt-proxy:
     image: mirceaulinic/salt-proxy:2017.7.5
     hostname: ${PROXYID}
     container_name: salt-proxy-${PROXYID}
     volumes:
       - ./proxy:/etc/salt/proxy
+      - ${HOME}/salt/:/usr/lib/python2.7/dist-packages/salt/
+      - ${HOME}/salt/:/usr/lib/python3.5/dist-packages/salt/
     environment:
       - LOG_LEVEL
       - PROXYID
