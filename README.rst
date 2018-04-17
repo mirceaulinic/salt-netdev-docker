@@ -28,7 +28,7 @@ Example output:
 
 .. code-block:: bash
 
-  $ make PROXYID=dummy
+  $ make PROXYID=dummy start
   docker-compose up -d
   Creating salt-proxy-dummy ...
   Creating salt-master ...

@@ -2,6 +2,8 @@ FROM debian:stretch
 
 MAINTAINER ping@mirceaulinic.net
 
+ARG version=""
+
 ## Install min deps
 RUN apt-get update \
   && apt-get install -y apt-utils \
@@ -11,9 +13,9 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 ## Setup sources for Jessie backports and SaltStack repo
-RUN echo 'deb http://httpredir.debian.org/debian stretch-backports main' >> /etc/apt/sources.list \
-    && echo 'deb http://repo.saltstack.com/apt/debian/9/amd64/archive/2017.7.5/ stretch main' >> /etc/apt/sources.list.d/saltstack.list \
-    && wget -O - https://repo.saltstack.com/apt/debian/9/amd64/archive/2017.7.5/SALTSTACK-GPG-KEY.pub | apt-key add - \
+RUN echo deb http://httpredir.debian.org/debian stretch-backports main >> /etc/apt/sources.list \
+    && echo deb http://repo.saltstack.com/apt/debian/9/amd64/archive/$version/ stretch main >> /etc/apt/sources.list.d/saltstack.list \
+    && wget -O - https://repo.saltstack.com/apt/debian/9/amd64/archive/$version/SALTSTACK-GPG-KEY.pub | apt-key add - \
     && apt-get update
 
 ## Install backports
@@ -21,7 +23,7 @@ RUN apt-get install -y python-zmq
 
 ## Install Salt packages
 ## salt-proxy is already included in salt-minion when installing from the SaltStack repos
-RUN apt-get install -y salt-minion=2017.7.5+ds-1
+RUN apt-get install -y salt-minion=$version+ds-1
 
 ## Copy the Proxy config file
 ADD proxy /etc/salt/proxy
